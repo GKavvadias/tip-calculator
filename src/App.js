@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Bill } from "./components/Bill";
+import { Opinion } from "./components/Opinion";
+import { Payment } from "./components/Payment";
+import { Reset } from "./components/Reset";
 
-function App() {
+export default function App() {
+  const [bill, setBill] = useState("");
+  const [myOpinion, setMyOpinion] = useState(0);
+  const [friendsOpinion, setFriendsOpinion] = useState(0);
+
+  const tip = bill * ((myOpinion + friendsOpinion) / 2 / 100);
+
+  function handleReset() {
+    setBill(0);
+    setMyOpinion(0);
+    setFriendsOpinion(0);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Bill bill={bill} setBill={setBill} />
+      <Opinion
+        text="How did you like the service?"
+        opinion={myOpinion}
+        setOpinion={setMyOpinion}
+      />
+      <Opinion
+        text="How did your friend like the service?"
+        opinion={friendsOpinion}
+        setOpinion={setFriendsOpinion}
+      />
+      <Payment bill={bill} tip={tip} />
+      <Reset handleReset={handleReset} />
     </div>
   );
 }
-
-export default App;
